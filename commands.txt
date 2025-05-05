@@ -1,0 +1,78 @@
+
+# This file contains all the CLI utilised for the lab: "Intro to the CLI Lab"
+## This exercise illustrates the Star Wars story by moving characters to different folders as if they were planets
+
+### Part 1
+junjun@MacBook-Pro ga-seb57-w01d1 % mkdir star-wars
+junjun@MacBook-Pro ga-seb57-w01d1 % cd star-wars
+junjun@MacBook-Pro star-wars % cd ..
+junjun@MacBook-Pro ga-seb57-w01d1 % cd star-wars
+junjun@MacBook-Pro star-wars % mkdir death-star
+junjun@MacBook-Pro star-wars % cd death-star 
+junjun@MacBook-Pro death-star % touch darth-vader.txt princess-leia.txt storm-trooper.txt
+junjun@MacBook-Pro death-star % cd ..    
+junjun@MacBook-Pro star-wars % mkdir galaxy-far-far-away
+junjun@MacBook-Pro star-wars % mkdir galaxy-far-far-away/tatooine
+junjun@MacBook-Pro star-wars % cd galaxy-far-far-away/tatooine 
+junjun@MacBook-Pro tatooine % touch luke.txt ben-kenobi.txt
+junjun@MacBook-Pro tatooine % mkdir millenium-falcon
+junjun@MacBook-Pro tatooine % touch millenium-falcon/han-solo.txt millenium-falcon/chewbacca.txt
+
+### Part 2
+junjun@MacBook-Pro tatooine % cd ../..
+junjun@MacBook-Pro star-wars % cp death-star/storm-trooper.txt galaxy-far-far-away/tatooine 
+
+### Part 3
+junjun@MacBook-Pro star-wars % mv galaxy-far-far-away/tatooine/lujunjunjjunjunjjunjunjjunjujunjujujjujjjjjjjjjjjjjunjun@MacBook-Pro star-wars % mv galaxy-far-far-away/tatooine/luke.txt galaxy-far-far-away/tatooine/millenium-falcon 
+junjun@MacBook-Pro star-wars % mv galaxy-far-far-away/tatooine/ben-kenobi.txt galaxy-far-far-away/tatooine/millenium-falcon
+junjun@MacBook-Pro star-wars % mv galaxy-far-far-away/tatooine/millenium-falcon galaxy-far-far-away 
+junjun@MacBook-Pro star-wars % mv galaxy-far-far-away/millenium-falcon death-star 
+junjun@MacBook-Pro star-wars % cd death-star 
+junjun@MacBook-Pro death-star % mv princess-leia.txt millenium-falcon 
+
+### Part 4
+junjun@MacBook-Pro death-star % cd millenium-falcon 
+junjun@MacBook-Pro millenium-falcon % mv ben-kenobi.txt obi-wan.txt
+
+### Part 5
+junjun@MacBook-Pro millenium-falcon % rm obi-wan.txt 
+
+### Part 6
+junjun@MacBook-Pro millenium-falcon % cd ../..
+junjun@MacBook-Pro star-wars % mkdir galaxy-far-far-away/yavin-4
+junjun@MacBook-Pro star-wars % mv death-star/millenium-falcon galaxy-far-far-away/yavin-4 
+junjun@MacBook-Pro star-wars % mkdir galaxy-far-far-away/yavin-4/x-wing
+junjun@MacBook-Pro star-wars % cd galaxy-far-far-away/yavin-4 
+junjun@MacBook-Pro yavin-4 % mv millenium-falcon/princess-leia.txt .
+junjun@MacBook-Pro yavin-4 % mv millenium-falcon/luke.txt x-wing 
+junjun@MacBook-Pro yavin-4 % mv millenium-falcon ../
+junjun@MacBook-Pro yavin-4 % mv x-wing ../
+junjun@MacBook-Pro yavin-4 % cd ../../death-star 
+junjun@MacBook-Pro death-star % mkdir tie-fighter-1 tie-fighter-2 tie-fighter-3
+junjun@MacBook-Pro death-star % mv darth-vader.txt tie-fighter-1
+junjun@MacBook-Pro death-star % cp storm-trooper.txt tie-fighter-2 
+junjun@MacBook-Pro death-star % cp storm-trooper.txt tie-fighter-3
+junjun@MacBook-Pro death-star % cd .. 
+junjun@MacBook-Pro star-wars % mv death-star/tie-fighter-1 galaxy-far-far-away 
+junjun@MacBook-Pro star-wars % mv death-star/tie-fighter-2 galaxy-far-far-away
+junjun@MacBook-Pro star-wars % mv death-star/tie-fighter-3 galaxy-far-far-away
+
+### Part 7
+junjun@MacBook-Pro star-wars % cd galaxy-far-far-away 
+junjun@MacBook-Pro galaxy-far-far-away % rm -r tie-fighter-2
+junjun@MacBook-Pro galaxy-far-far-away % rm -r tie-fighter-3
+
+### Part 8
+junjun@MacBook-Pro galaxy-far-far-away % cd x-wing 
+junjun@MacBook-Pro x-wing % touch the-force.txt
+junjun@MacBook-Pro x-wing % cd ..
+junjun@MacBook-Pro galaxy-far-far-away % cd ..
+junjun@MacBook-Pro star-wars % rm -r death-star 
+junjun@MacBook-Pro star-wars % cd galaxy-far-far-away 
+junjun@MacBook-Pro galaxy-far-far-away % mv x-wing yavin-4 
+junjun@MacBook-Pro galaxy-far-far-away % mv millenium-falcon yavin-4 
+
+### Part 9
+junjun@MacBook-Pro galaxy-far-far-away % cd ..
+junjun@MacBook-Pro star-wars % cd ..
+junjun@MacBook-Pro ga-seb57-w01d1 % rm -r star-wars
