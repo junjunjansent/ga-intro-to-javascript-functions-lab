@@ -24,7 +24,14 @@
 // assume textContent of buttons CANNOT BE null
 
 // CHALLENGE - a lot of string manipulation
-// PENDING - keyboard inputs
+
+// FOR LEARNING - Improvements
+// (1) we can already split the display string into a string[], this will allow better manipulation for handleNumbers and handleOperations, instead of only doing it at handleEqual
+// (2) using string[] as a core data storage is good, makes everything cleaner and uses idea of state instead of string parsing
+// (3) my codes doesnt utilise MVC, or mainly it blends - logic and DOM manipulation together
+// ---- Model: Class with (a) string[] as calculator state, (b) store input, (c) all my methods handleNumbers, handleOperators, handleClear, handleEquals
+// ---- View: Update display directly (which im doing something like ti)
+// ---- Controller: A smaller class to wrap my keydown and click listeners
 
 /*-------------------------------- Constants --------------------------------*/
 
