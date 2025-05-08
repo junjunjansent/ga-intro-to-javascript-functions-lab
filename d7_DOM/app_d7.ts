@@ -24,11 +24,11 @@
 // assume textContent of buttons CANNOT BE null
 
 // CHALLENGE - a lot of string manipulation
+// PENDING - keyboard inputs
 
 /*-------------------------------- Constants --------------------------------*/
 
 /*-------------------------------- Variables --------------------------------*/
-let display = "";
 
 /*------------------------ Cached Element References ------------------------*/
 // i dont really like how it is out here globally
@@ -44,12 +44,14 @@ const displayDiv = document.querySelector(".display");
 // You can place function declarations anywhere, but often, devs put them at the bottom. BUT need to put if i use arrow function
 
 const calculatorFunctions = (event: MouseEvent) => {
-  //   calculator
-
+  // target may not be HTMLElement (e.g. document, TextNode)
   const target = event.target;
+  let targetString = "";
 
-  // TYPESCRIPT: Exit early if it's not an HTMLElement
-  if (!(target instanceof HTMLElement)) {
+  // TYPESCRIPT: only get string if target is HTMLElement. Exit early if it isnt
+  if (target instanceof HTMLElement) {
+    targetString = target?.textContent ?? "";
+  } else {
     return;
   }
 
@@ -60,11 +62,11 @@ const calculatorFunctions = (event: MouseEvent) => {
   // to prevent exact match of classes, i use classList contains
   // all functions modifies display in order to handle zero
   if (target.classList.contains("number")) {
-    input = handleNumber(target, display);
+    input = handleNumber(targetString, display);
   } else if (target.classList.contains("operator")) {
-    input = handleOperator(target, display);
+    input = handleOperator(targetString, display);
   } else if (target.classList.contains("equals")) {
-    input = handleEqual(target, display);
+    input = handleEqual(display);
     displayDiv!.innerHTML = "<strong>" + input + "</strong>";
     return;
   } else {
@@ -76,7 +78,34 @@ const calculatorFunctions = (event: MouseEvent) => {
   displayDiv!.textContent = input;
 };
 
-const handleNumber = (target: HTMLElement, display: string): string => {
+const keyboardCalculator = (event: KeyboardEvent) => {
+  // difference for keyboard. Note "key" is a string, NOT HTMLElement
+  // If we want it to be HTMLElement, either check type or use type assertion const key = { textContent: event.key } as HTMLElement;
+  const keyString = event.key;
+
+  let display: string = displayDiv?.textContent ?? "";
+  let input = "";
+
+  //   console.dir(key);
+  //   console.dir(keyString);
+
+  if (/\d/.test(keyString)) {
+    // It's a digit
+    input = handleNumber(keyString, display);
+  } else if ("+-*/cC".includes(keyString)) {
+    input = handleOperator(keyString, display);
+  } else if (keyString === "Enter" || keyString === "=") {
+    input = handleEqual(display);
+    displayDiv!.innerHTML = "<strong>" + input + "</strong>";
+    return;
+  } else {
+    return; // Ignore unsupported keys
+  }
+
+  displayDiv!.textContent = input;
+};
+
+const handleNumber = (targetString: string, display: string): string => {
   // handling zeros
   // if display shows only one number that is any number of zero OR empty ---> display = zero
   // if display shows any argument, check that if a space exists, e.g. " 000002" removes leading zeroes
@@ -84,18 +113,18 @@ const handleNumber = (target: HTMLElement, display: string): string => {
   let lastSpaceIndex = display.lastIndexOf(" ");
   let lastNumber = display.slice(lastSpaceIndex + 1, display.length);
 
-  if (target.textContent === "0" && lastNumber === "0") {
+  if (targetString === "0" && lastNumber === "0") {
     // lastNumber will just remaing as zero
     alert("Already a zero there.");
     return display;
   } else if (lastNumber === "0") {
-    return display.slice(0, -1) + target.textContent;
+    return display.slice(0, -1) + targetString;
   } else {
-    return display + target.textContent;
+    return display + targetString;
   }
 };
 
-const handleOperator = (target: HTMLElement, display: string): string => {
+const handleOperator = (targetString: string, display: string): string => {
   let lastSpaceIndex = display.lastIndexOf(" ");
   let lastOperator = display.slice(lastSpaceIndex - 2, lastSpaceIndex) ?? "";
   let lastNumber = display.slice(lastSpaceIndex + 1, display.length);
@@ -110,13 +139,13 @@ const handleOperator = (target: HTMLElement, display: string): string => {
   // (2) is lastNumber actually exists
   // (3) if display is empty
   // (4) if lastOperator already has two math elements (except "**")
-  if (target.textContent === "C") {
+  if (targetString === "C" || targetString === "c") {
     return "";
   } else if (lastNumber !== "") {
-    input = ` ${target.textContent} `;
+    input = ` ${targetString} `;
     return display + input;
   } else if (display === "") {
-    return `0 ${target.textContent} `;
+    return `0 ${targetString} `;
   } else if (lastOperator[0] !== " " && lastOperator !== "**") {
     alert("Think we have enough operations here.");
     return display;
@@ -132,9 +161,9 @@ const handleOperator = (target: HTMLElement, display: string): string => {
   // leftover cases
   // display is NOT empty AND lastNumber does NOT exist
   // i.e. it will now look at secondary operators
-  if (target.textContent === "+" || target.textContent === "-") {
-    return display.slice(0, -1) + `(${target.textContent}) `;
-  } else if (target.textContent === "*" && lastOperator == " *") {
+  if (targetString === "+" || targetString === "-") {
+    return display.slice(0, -1) + `(${targetString}) `;
+  } else if (targetString === "*" && lastOperator == " *") {
     return display.slice(0, -1) + "* ";
   } else {
     alert("Can't put these two operations together");
@@ -187,9 +216,9 @@ const handleOperator = (target: HTMLElement, display: string): string => {
   return display + input;
 };
 
-const handleEqual = (target: HTMLElement, display: string): string => {
+const handleEqual = (display: string): string => {
   const arrayToCalculate = display.split(" ");
-  console.log(arrayToCalculate);
+  //   console.log(arrayToCalculate);
 
   let answer: number = Number(arrayToCalculate[0]) ?? 0;
 
@@ -254,3 +283,5 @@ const handleEqual = (target: HTMLElement, display: string): string => {
 // we shall split into 3 different listeners, number, operator, and equal
 // console.dir(numberButtons);
 calculatorContainer?.addEventListener("click", calculatorFunctions);
+
+document.addEventListener("keydown", keyboardCalculator);
